@@ -1,28 +1,36 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import { Router } from "@reach/router"
+import { ToastContainer, Zoom, toast } from "react-toastify"
+// Contexts
+import { NameProvider } from "contexts/Name"
+// Pages
+import GameView from "view/Game"
+import HomeView from "view/Home"
 
-class App extends Component {
+class App extends React.Component {
+  componentDidCatch(error, info) {
+    console.log(error, info)
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+      <NameProvider>
+        <React.Fragment>
+          <Router>
+            <HomeView path="/" />
+            <GameView path="/game/:roomName" />
+          </Router>
+
+          <ToastContainer
+            autoClose={3000}
+            position={toast.POSITION.BOTTOM_CENTER}
+            transition={Zoom}
+            type={toast.TYPE.ERROR}
+          />
+        </React.Fragment>
+      </NameProvider>
+    )
   }
 }
 
-export default App;
+export default App
